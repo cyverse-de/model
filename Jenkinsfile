@@ -5,7 +5,7 @@ node {
     stage "Build"
     git url: "https://github.com/cyverse-de/${repo}", branch: "${env.BRANCH_NAME}"
 
-    dockerRepo = "test-${repo}"
+    dockerRepo = "test-${repo}-${env.BRANCH_NAME}"
 
     sh "docker build --rm -t ${dockerRepo} ."
 
