@@ -16,11 +16,12 @@ import (
 	"github.com/olebedev/config"
 )
 
-func JSONData() ([]byte, error) {
-	f, err := os.Open("test/test_submission.json")
+func JSONData(filename string) ([]byte, error) {
+	f, err := os.Open(filename)
 	if err != nil {
 		return nil, err
 	}
+	defer f.Close()
 	c, err := ioutil.ReadAll(f)
 	if err != nil {
 		return nil, err
@@ -33,33 +34,45 @@ var (
 	cfg *config.Config
 )
 
-func _inittests(t *testing.T, memoize bool) *Job {
+func _initconfig(t *testing.T) {
 	var err error
+	cfg, err = configurate.Init("test/test_config.yaml")
+	if err != nil {
+		t.Fatal(err)
+	}
+	cfg.Set("condor.run_on_nfs", true)
+	cfg.Set("irods.base", "/path/to/irodsbase")
+	cfg.Set("irods.host", "hostname")
+	cfg.Set("irods.port", "1247")
+	cfg.Set("irods.user", "user")
+	cfg.Set("irods.pass", "pass")
+	cfg.Set("irods.zone", "test")
+	cfg.Set("irods.resc", "")
+	cfg.Set("condor.log_path", "/path/to/logs")
+	cfg.Set("condor.porklock_tag", "test")
+	cfg.Set("condor.filter_files", "foo,bar,baz,blippy")
+	cfg.Set("condor.request_disk", "0")
+}
+
+func inittestsFile(t *testing.T, filename string) *Job {
+	var err error
+	if cfg == nil {
+		_initconfig(t)
+	}
+	data, err := JSONData(filename)
+	if err != nil {
+		t.Fatal(err)
+	}
+	submission, err := NewFromData(cfg, data)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return submission
+}
+
+func _inittests(t *testing.T, memoize bool) *Job {
 	if s == nil || !memoize {
-		cfg, err = configurate.Init("test/test_config.yaml")
-		if err != nil {
-			t.Error(err)
-		}
-		cfg.Set("condor.run_on_nfs", true)
-		cfg.Set("irods.base", "/path/to/irodsbase")
-		cfg.Set("irods.host", "hostname")
-		cfg.Set("irods.port", "1247")
-		cfg.Set("irods.user", "user")
-		cfg.Set("irods.pass", "pass")
-		cfg.Set("irods.zone", "test")
-		cfg.Set("irods.resc", "")
-		cfg.Set("condor.log_path", "/path/to/logs")
-		cfg.Set("condor.porklock_tag", "test")
-		cfg.Set("condor.filter_files", "foo,bar,baz,blippy")
-		cfg.Set("condor.request_disk", "0")
-		data, err := JSONData()
-		if err != nil {
-			t.Error(err)
-		}
-		s, err = NewFromData(cfg, data)
-		if err != nil {
-			t.Error(err)
-		}
+		s = inittestsFile(t, "test/test_submission.json")
 	}
 	return s
 }
@@ -246,6 +259,44 @@ func TestAppName(t *testing.T) {
 	s := inittests(t)
 	if s.AppName != "Word Count" {
 		t.Errorf("app_name was '%s' instead of 'Word Count'", s.AppName)
+	}
+}
+
+func TestUserGroups(t *testing.T) {
+	s := _inittests(t, false)
+	expected := `{"groups:foo","groups:bar","groups:baz"}`
+	actual := s.FormatUserGroups()
+	if actual != expected {
+		t.Errorf("FormatUserGroups() returned '%s' when it should have returned '%s'", actual, expected)
+	}
+}
+
+func TestEmptyUserGroups(t *testing.T) {
+	s := _inittests(t, false)
+	s.UserGroups = []string{}
+	expected := `{}`
+	actual := s.FormatUserGroups()
+	if actual != expected {
+		t.Errorf("FormatUserGroups() returned '%s' when it should have returned '%s'", actual, expected)
+	}
+}
+
+func TestNilUserGroups(t *testing.T) {
+	s := _inittests(t, false)
+	s.UserGroups = []string(nil)
+	expected := `{}`
+	actual := s.FormatUserGroups()
+	if actual != expected {
+		t.Errorf("FormatUserGroups() returned '%s' when it should have returned '%s'", actual, expected)
+	}
+}
+
+func TestMissingUserGroups(t *testing.T) {
+	s := inittestsFile(t, "test/no_groups_submission.json")
+	expected := `{}`
+	actual := s.FormatUserGroups()
+	if actual != expected {
+		t.Errorf("FormatUserGroups() returned '%s' when it should have returned '%s'", actual, expected)
 	}
 }
 
