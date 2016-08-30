@@ -13,7 +13,7 @@ import (
 
 	"github.com/cyverse-de/configurate"
 
-	"github.com/olebedev/config"
+	"github.com/spf13/viper"
 )
 
 func JSONData(filename string) ([]byte, error) {
@@ -31,12 +31,12 @@ func JSONData(filename string) ([]byte, error) {
 
 var (
 	s   *Job
-	cfg *config.Config
+	cfg *viper.Viper
 )
 
 func _initconfig(t *testing.T) {
 	var err error
-	cfg, err = configurate.Init("test/test_config.yaml")
+	cfg, err = configurate.InitDefaults("test/test_config.yaml", configurate.JobServicesDefaults)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -313,10 +313,7 @@ func TestDirname(t *testing.T) {
 func TestCondorLogDir(t *testing.T) {
 	s := _inittests(t, false)
 	s.NowDate = time.Now().Format(nowfmt)
-	logPath, err := cfg.String("condor.log_path")
-	if err != nil {
-		t.Error(err)
-	}
+	logPath := cfg.GetString("condor.log_path")
 	expected := fmt.Sprintf("%s/", path.Join(logPath, s.Submitter, s.DirectoryName()))
 	actual := s.CondorLogDirectory()
 	if actual != expected {
