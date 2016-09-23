@@ -1,5 +1,5 @@
 #!groovy
-node {
+node('docker') {
     slackJobDescription = "job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
     try {
         stage "Build"
@@ -19,10 +19,6 @@ node {
             sh returnStatus: true, script: "docker rmi ${dockerRepo}"
         }
     } catch (InterruptedException e) {
-        currentBuild.result = "ABORTED"
-        slackSend color: 'warning', message: "ABORTED: ${slackJobDescription}"
-        throw e
-    } catch (hudson.AbortException e) {
         currentBuild.result = "ABORTED"
         slackSend color: 'warning', message: "ABORTED: ${slackJobDescription}"
         throw e
