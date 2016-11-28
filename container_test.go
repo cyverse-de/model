@@ -126,6 +126,40 @@ func TestStepContainerVolumes(t *testing.T) {
 	}
 }
 
+func TestUsesVolumes(t *testing.T) {
+	s := inittests(t)
+	container := s.Steps[0].Component.Container
+	if !container.UsesVolumes() {
+		t.Error("The container UsesVolumes method was false when it should have been true.")
+	}
+
+	step := s.Steps[0]
+	if !step.UsesVolumes() {
+		t.Error("The step UsesVolumes method was false when it should have been true.")
+	}
+
+	if !s.UsesVolumes() {
+		t.Error("The job UsesVolumes method was false when it should have been true.")
+	}
+}
+
+func TestNotUsesVolumes(t *testing.T) {
+	s := inittestsFile(t, "test/no_volumes_submission.json")
+	container := s.Steps[0].Component.Container
+	if container.UsesVolumes() {
+		t.Error("The container UsesVolumes method was false when it should have been true.")
+	}
+
+	step := s.Steps[0]
+	if step.UsesVolumes() {
+		t.Error("The step UsesVolumes method was false when it should have been true.")
+	}
+
+	if s.UsesVolumes() {
+		t.Error("The job UsesVolumes method was false when it should have been true.")
+	}
+}
+
 func TestStepContainerDevices(t *testing.T) {
 	s := inittests(t)
 	devices := s.Steps[0].Component.Container.Devices
