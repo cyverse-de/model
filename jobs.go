@@ -167,7 +167,6 @@ func (s *Job) Sanitize() {
 		for j, vf := range step.Component.Container.VolumesFrom {
 			vf.Name = strings.TrimSpace(vf.Name)
 			vf.Tag = strings.TrimSpace(vf.Tag)
-			vf.Name = strings.TrimSpace(vf.Name)
 			vf.NamePrefix = strings.TrimSpace(vf.NamePrefix)
 			vf.HostPath = strings.TrimSpace(vf.HostPath)
 			vf.ContainerPath = strings.TrimSpace(vf.ContainerPath)
