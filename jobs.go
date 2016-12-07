@@ -156,6 +156,10 @@ func (s *Job) Sanitize() {
 		s.Type = "analysis"
 	}
 	s.Name = sanitize(s.Name)
+	for _, step := range s.Steps {
+		step.Component.Container.Image.Name = strings.TrimSpace(step.Component.Container.Image.Name)
+		step.Component.Container.Image.Tag = strings.TrimSpace(step.Component.Container.Image.Tag)
+	}
 }
 
 // DirectoryName creates a directory name for an analysis. Used when the submission
