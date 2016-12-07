@@ -152,13 +152,26 @@ func sanitize(s string) string {
 // like file names.
 func (s *Job) Sanitize() {
 	s.Submitter = sanitize(s.Submitter)
+
 	if s.Type == "" {
 		s.Type = "analysis"
 	}
+
 	s.Name = sanitize(s.Name)
+
 	for _, step := range s.Steps {
 		step.Component.Container.Image.Name = strings.TrimSpace(step.Component.Container.Image.Name)
 		step.Component.Container.Image.Tag = strings.TrimSpace(step.Component.Container.Image.Tag)
+		step.Component.Container.Name = strings.TrimSpace(step.Component.Container.Name)
+
+		for _, vf := range step.Component.Container.VolumesFrom {
+			vf.Name = strings.TrimSpace(vf.Name)
+			vf.Tag = strings.TrimSpace(vf.Tag)
+			vf.Name = strings.TrimSpace(vf.Name)
+			vf.NamePrefix = strings.TrimSpace(vf.Name)
+			vf.HostPath = strings.TrimSpace(vf.HostPath)
+			vf.ContainerPath = strings.TrimSpace(vf.ContainerPath)
+		}
 	}
 }
 
