@@ -159,19 +159,21 @@ func (s *Job) Sanitize() {
 
 	s.Name = sanitize(s.Name)
 
-	for _, step := range s.Steps {
+	for i, step := range s.Steps {
 		step.Component.Container.Image.Name = strings.TrimSpace(step.Component.Container.Image.Name)
 		step.Component.Container.Image.Tag = strings.TrimSpace(step.Component.Container.Image.Tag)
 		step.Component.Container.Name = strings.TrimSpace(step.Component.Container.Name)
 
-		for _, vf := range step.Component.Container.VolumesFrom {
+		for j, vf := range step.Component.Container.VolumesFrom {
 			vf.Name = strings.TrimSpace(vf.Name)
 			vf.Tag = strings.TrimSpace(vf.Tag)
 			vf.Name = strings.TrimSpace(vf.Name)
-			vf.NamePrefix = strings.TrimSpace(vf.Name)
+			vf.NamePrefix = strings.TrimSpace(vf.NamePrefix)
 			vf.HostPath = strings.TrimSpace(vf.HostPath)
 			vf.ContainerPath = strings.TrimSpace(vf.ContainerPath)
+			step.Component.Container.VolumesFrom[j] = vf
 		}
+		s.Steps[i] = step
 	}
 }
 
