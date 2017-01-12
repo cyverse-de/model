@@ -352,7 +352,7 @@ func TestInputArguments(t *testing.T) {
 		"get",
 		"--user", "testuser",
 		"--source", "/iplant/home/wregglej/Acer-tree.txt",
-		"--config", "irods-config",
+		"--config", "/configs/irods-config",
 		"-m", "attr1,value1,unit1",
 		"-m", "attr2,value2,unit2",
 		"-m", "ipc-analysis-id,c7f05682-23c8-4182-b9a2-e09650a5f49b,UUID",
