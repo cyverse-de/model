@@ -165,7 +165,7 @@ func TestStepContainerDevices(t *testing.T) {
 	devices := s.Steps[0].Component.Container.Devices
 	numdevices := len(devices)
 	if numdevices != 2 {
-		t.Errorf("The number of devices was %d when it should have been 2", devices)
+		t.Errorf("The number of devices was %d when it should have been 2", numdevices)
 	}
 	device := devices[0]
 	if device.HostPath != "/host/path1" {
