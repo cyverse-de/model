@@ -69,7 +69,7 @@ func (i *StepInput) Arguments(username string, metadata []FileMetadata) []string
 		"get",
 		"--user", username,
 		"--source", path,
-		"--config", "irods-config",
+		"--config", "/configs/irods-config",
 	}
 	for _, m := range MetadataArgs(metadata).FileMetadataArguments() {
 		args = append(args, m)
