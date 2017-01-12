@@ -328,7 +328,7 @@ func (s *Job) FinalOutputArguments() []string {
 	retval := []string{
 		"put",
 		"--user", s.Submitter,
-		"--config", "irods-config",
+		"--config", "/configs/irods-config",
 		"--destination", dest,
 	}
 	for _, m := range MetadataArgs(s.FileMetadata).FileMetadataArguments() {
