@@ -608,7 +608,6 @@ func TestFinalOutputArguments(t *testing.T) {
 	expected := []string{
 		"put",
 		"--user", "test_this_is_a_test",
-		"--config", "/configs/irods-config",
 		"--destination", fmt.Sprintf("%s", outputdir),
 		"-m", "attr1,value1,unit1",
 		"-m", "attr2,value2,unit2",
@@ -624,7 +623,6 @@ func TestFinalOutputArguments(t *testing.T) {
 	expected = []string{
 		"put",
 		"--user", "test_this_is_a_test",
-		"--config", "/configs/irods-config",
 		"--destination", fmt.Sprintf("%s", outputdir),
 		"-m", "attr1,value1,unit1",
 		"-m", "attr2,value2,unit2",
