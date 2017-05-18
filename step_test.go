@@ -479,7 +479,7 @@ func TestOutputSource(t *testing.T) {
 	output.Name = "not-abs"
 	output.Multiplicity = "collection"
 	actual = output.Source()
-	expected = "$(pwd)/not-abs/"
+	expected = "/de-app-work/not-abs/"
 	if actual != expected {
 		t.Errorf("Source() returned %s instead of %s", actual, expected)
 	}

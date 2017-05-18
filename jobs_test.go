@@ -544,13 +544,13 @@ func TestExcludeArguments(t *testing.T) {
 	}
 	s.Steps[0].Config.Outputs[1].Retain = false
 	actual = s.ExcludeArguments()
-	expected = []string{"--exclude", "Acer-tree.txt,$(pwd)/logs/,foo,bar,baz,blippy"}
+	expected = []string{"--exclude", "Acer-tree.txt,/de-app-work/logs/,foo,bar,baz,blippy"}
 	if !reflect.DeepEqual(actual, expected) {
 		t.Errorf("ExcludeArguments() returned:\n\t%sinstead of:\n\t%s", actual, expected)
 	}
 	s.ArchiveLogs = false
 	actual = s.ExcludeArguments()
-	expected = []string{"--exclude", "Acer-tree.txt,$(pwd)/logs/,foo,bar,baz,blippy,logs"}
+	expected = []string{"--exclude", "Acer-tree.txt,/de-app-work/logs/,foo,bar,baz,blippy,logs"}
 	if !reflect.DeepEqual(actual, expected) {
 		t.Errorf("ExcludeArguments() returned:\n\t%sinstead of:\n\t%s", actual, expected)
 	}
