@@ -219,8 +219,8 @@ func TestStepConfig(t *testing.T) {
 	inputlen := len(config.Inputs)
 	outputlen := len(config.Outputs)
 	paramslen := len(config.Params)
-	if inputlen != 1 {
-		t.Errorf("The number of inputs was '%d' when it should have been '1'", inputlen)
+	if inputlen != 2 {
+		t.Errorf("The number of inputs was '%d' when it should have been '2'", inputlen)
 	}
 	if outputlen != 2 {
 		t.Errorf("The number of outputs was '%d' when it should have been '2'", outputlen)

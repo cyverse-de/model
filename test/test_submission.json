@@ -83,6 +83,15 @@
                         "retain":true,
                         "type":"FileInput",
                         "value":"/iplant/home/wregglej/Acer-tree.txt"
+                    },
+                    {
+                        "id" : "2f58fce9-8183-4ab5-97c4-970592d1c35b",
+                        "multiplicity":"single",
+                        "name":"app",
+                        "property":"app",
+                        "retain":false,
+                        "type":"FileInput",
+                        "value":""
                     }
                 ],
                 "output":[
