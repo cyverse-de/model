@@ -274,8 +274,7 @@ func (s *Job) Outputs() []StepOutput {
 	return outputs
 }
 
-// ExcludeArguments returns a string containing the command-line settings for
-// porklock that tell it which files to skip.
+// ExcludeArguments returns a list of paths that should not upload as outputs.
 func (s *Job) ExcludeArguments() []string {
 	var paths []string
 	for _, input := range s.Inputs() {
@@ -294,12 +293,8 @@ func (s *Job) ExcludeArguments() []string {
 	if !s.ArchiveLogs {
 		paths = append(paths, "logs")
 	}
-	retval := []string{}
-	if len(paths) > 0 {
-		retval = append(retval, "--exclude")
-		retval = append(retval, strings.Join(paths, ","))
-	}
-	return retval
+
+	return paths
 }
 
 // AddRequiredMetadata adds any required AVUs that are required but are missing
@@ -341,7 +336,7 @@ func (s *Job) AddRequiredMetadata() {
 // FinalOutputArguments returns a string containing the arguments passed to
 // porklock for the final output operation, which transfers all files back into
 // iRODS.
-func (s *Job) FinalOutputArguments() []string {
+func (s *Job) FinalOutputArguments(excludeFilePath string) []string {
 	dest := s.OutputDirectory()
 	retval := []string{
 		"put",
@@ -351,8 +346,8 @@ func (s *Job) FinalOutputArguments() []string {
 	for _, m := range MetadataArgs(s.FileMetadata).FileMetadataArguments() {
 		retval = append(retval, m)
 	}
-	for _, e := range s.ExcludeArguments() {
-		retval = append(retval, e)
+	if excludeFilePath != "" {
+		retval = append(retval, "--exclude", excludeFilePath)
 	}
 	if s.SkipParentMetadata {
 		retval = append(retval, "--skip-parent-meta")
