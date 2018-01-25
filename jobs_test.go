@@ -532,25 +532,25 @@ func TestOutputs(t *testing.T) {
 func TestExcludeArguments(t *testing.T) {
 	s := inittests(t)
 	actual := s.ExcludeArguments()
-	expected := []string{"--exclude", "foo,bar,baz,blippy"}
+	expected := []string{"foo", "bar", "baz", "blippy"}
 	if !reflect.DeepEqual(actual, expected) {
 		t.Errorf("ExcludeArguments() returned:\n\t%#vinstead of:\n\t%#v", actual, expected)
 	}
 	s.Steps[0].Config.Inputs[0].Retain = false
 	actual = s.ExcludeArguments()
-	expected = []string{"--exclude", "Acer-tree.txt,foo,bar,baz,blippy"}
+	expected = []string{"Acer-tree.txt", "foo", "bar", "baz", "blippy"}
 	if !reflect.DeepEqual(actual, expected) {
 		t.Errorf("ExcludeArguments() returned:\n\t%sinstead of:\n\t%s", actual, expected)
 	}
 	s.Steps[0].Config.Outputs[1].Retain = false
 	actual = s.ExcludeArguments()
-	expected = []string{"--exclude", "Acer-tree.txt,/de-app-work/logs/,foo,bar,baz,blippy"}
+	expected = []string{"Acer-tree.txt", "/de-app-work/logs/", "foo", "bar", "baz", "blippy"}
 	if !reflect.DeepEqual(actual, expected) {
 		t.Errorf("ExcludeArguments() returned:\n\t%sinstead of:\n\t%s", actual, expected)
 	}
 	s.ArchiveLogs = false
 	actual = s.ExcludeArguments()
-	expected = []string{"--exclude", "Acer-tree.txt,/de-app-work/logs/,foo,bar,baz,blippy,logs"}
+	expected = []string{"Acer-tree.txt", "/de-app-work/logs/", "foo", "bar", "baz", "blippy", "logs"}
 	if !reflect.DeepEqual(actual, expected) {
 		t.Errorf("ExcludeArguments() returned:\n\t%sinstead of:\n\t%s", actual, expected)
 	}
@@ -603,7 +603,7 @@ func TestAddRequiredMetadata(t *testing.T) {
 func TestFinalOutputArguments(t *testing.T) {
 	s := inittests(t)
 	s.AddRequiredMetadata()
-	actual := s.FinalOutputArguments()
+	actual := s.FinalOutputArguments("exclude.txt")
 	outputdir := s.OutputDirectory()
 	expected := []string{
 		"put",
@@ -613,13 +613,13 @@ func TestFinalOutputArguments(t *testing.T) {
 		"-m", "attr2,value2,unit2",
 		"-m", "ipc-analysis-id,c7f05682-23c8-4182-b9a2-e09650a5f49b,UUID",
 		"-m", "ipc-execution-id,07b04ce2-7757-4b21-9e15-0b4c2f44be26,UUID",
-		"--exclude", "foo,bar,baz,blippy",
+		"--exclude", "exclude.txt",
 	}
 	if !reflect.DeepEqual(actual, expected) {
 		t.Errorf("FinalOutputArguments() returned:\n\t%#v\ninstead of:\n\t%#v", actual, expected)
 	}
 	s.SkipParentMetadata = true
-	actual = s.FinalOutputArguments()
+	actual = s.FinalOutputArguments("exclude.txt")
 	expected = []string{
 		"put",
 		"--user", "test_this_is_a_test",
@@ -628,7 +628,7 @@ func TestFinalOutputArguments(t *testing.T) {
 		"-m", "attr2,value2,unit2",
 		"-m", "ipc-analysis-id,c7f05682-23c8-4182-b9a2-e09650a5f49b,UUID",
 		"-m", "ipc-execution-id,07b04ce2-7757-4b21-9e15-0b4c2f44be26,UUID",
-		"--exclude", "foo,bar,baz,blippy",
+		"--exclude", "exclude.txt",
 		"--skip-parent-meta",
 	}
 	if !reflect.DeepEqual(actual, expected) {
