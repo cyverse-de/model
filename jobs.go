@@ -76,8 +76,9 @@ type Job struct {
 	FailureCount       int64          `json:"failure_count"`
 	FailureThreshold   int64          `json:"failure_threshold"`
 	FileMetadata       []FileMetadata `json:"file-metadata"`
-	FilterFiles        []string       `json:"filter_files"` //comes from config, not upstream service
-	Group              string         `json:"group"`        //untested for now
+	FilterFiles        []string       `json:"filter_files"`       //comes from config, not upstream service
+	Group              string         `json:"group"`              //untested for now
+	InputTicketsFile   string         `json:"inputs_ticket_list"` //path to a list of inputs with tickets (not from upstream).
 	InvocationID       string         `json:"uuid"`
 	IRODSBase          string         `json:"irods_base"`
 	Name               string         `json:"name"`
@@ -369,6 +370,16 @@ func (s *Job) UsesVolumes() bool {
 		}
 	}
 	return false
+}
+
+func (job *Job) FilterInputsWithTickets() []StepInput {
+	var inputs []StepInput
+	for _, input := range job.Inputs() {
+		if input.Ticket != "" {
+			inputs = append(inputs, input)
+		}
+	}
+	return inputs
 }
 
 // FileMetadata describes a unit of metadata that should get associated with
