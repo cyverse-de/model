@@ -77,15 +77,18 @@ type Job struct {
 	FailureCount           int64          `json:"failure_count"`
 	FailureThreshold       int64          `json:"failure_threshold"`
 	FileMetadata           []FileMetadata `json:"file-metadata"`
-	FilterFiles            []string       `json:"filter_files"` //comes from config, not upstream service
-	Group                  string         `json:"group"`        //untested for now
+	FilterFiles            []string       `json:"filter_files"`       //comes from config, not upstream service
+	Group                  string         `json:"group"`              //untested for now
+	InputTicketsFile       string         `json:"inputs_ticket_list"` //path to a list of inputs with tickets (not from upstream).
 	InvocationID           string         `json:"uuid"`
 	IRODSBase              string         `json:"irods_base"`
 	Name                   string         `json:"name"`
 	NFSBase                string         `json:"nfs_base"`
 	Notify                 bool           `json:"notify"`
 	NowDate                string         `json:"now_date"`
-	OutputDir              string         `json:"output_dir"` //the value parsed out of the JSON. Use OutputDirectory() instead.
+	OutputDir              string         `json:"output_dir"`         //the value parsed out of the JSON. Use OutputDirectory() instead.
+	OutputDirTicket        string         `json:"output_dir_ticket"`  //the write ticket for output_dir (assumes output_dir is set correctly).
+	OutputTicketFile       string         `json:"output_ticket_list"` //path to the file of the output dest with ticket (not from upstream).
 	OutwardFacingProxyAddr string         `json:"outward_facing_proxy_address"`
 	RequestDisk            string         `json:"request_disk"` //untested for now
 	RequestType            string         `json:"request_type"`
@@ -371,6 +374,16 @@ func (s *Job) UsesVolumes() bool {
 		}
 	}
 	return false
+}
+
+func (job *Job) FilterInputsWithTickets() []StepInput {
+	var inputs []StepInput
+	for _, input := range job.Inputs() {
+		if input.Ticket != "" {
+			inputs = append(inputs, input)
+		}
+	}
+	return inputs
 }
 
 // FileMetadata describes a unit of metadata that should get associated with
