@@ -85,8 +85,10 @@ type Job struct {
 	NFSBase            string         `json:"nfs_base"`
 	Notify             bool           `json:"notify"`
 	NowDate            string         `json:"now_date"`
-	OutputDir          string         `json:"output_dir"`   //the value parsed out of the JSON. Use OutputDirectory() instead.
-	RequestDisk        string         `json:"request_disk"` //untested for now
+	OutputDir          string         `json:"output_dir"`         //the value parsed out of the JSON. Use OutputDirectory() instead.
+	OutputDirTicket    string         `json:"output_dir_ticket"`  //the write ticket for output_dir (assumes output_dir is set correctly).
+	OutputTicketFile   string         `json:"output_ticket_list"` //path to the file of the output dest with ticket (not from upstream).
+	RequestDisk        string         `json:"request_disk"`       //untested for now
 	RequestType        string         `json:"request_type"`
 	RunOnNFS           bool           `json:"run-on-nfs"`
 	SkipParentMetadata bool           `json:"skip-parent-meta"`
