@@ -16,6 +16,18 @@
                     "memory_limit" : 2048,
                     "entrypoint" : "/bin/true",
                     "id":"16fd2a16-3ac6-11e5-a25d-2fa4b0893ef1",
+                    "ports" : [
+                        {
+                            "container_port" : "1000",
+                            "host_port" : "1001",
+                            "bind_to_host" : false
+                        },
+                        {
+                            "container_port" : "1002",
+                            "host_port" : "1003",
+                            "bind_to_host" : true
+                        }
+                    ],
                     "image":{
                         "id":"fc210a84-f7cd-4067-939c-a68ec3e3bd2b",
                         "url":"https://registry.hub.docker.com/u/discoenv/backwards-compat",
