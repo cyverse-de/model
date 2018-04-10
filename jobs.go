@@ -80,7 +80,7 @@ type Job struct {
 	FilterFiles            []string        `json:"filter_files"`       //comes from config, not upstream service
 	Group                  string          `json:"group"`              //untested for now
 	InputTicketsFile       string          `json:"inputs_ticket_list"` //path to a list of inputs with tickets (not from upstream).
-	InteractionApps        InteractiveApps `json:"interactive_apps"`
+	InteractiveApps        InteractiveApps `json:"interactive_apps"`
 	InvocationID           string          `json:"uuid"`
 	IRODSBase              string          `json:"irods_base"`
 	Name                   string          `json:"name"`
