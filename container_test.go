@@ -42,6 +42,22 @@ func TestStepContainerImageName(t *testing.T) {
 	}
 }
 
+func TestStepContainerMissingOSGImagePath(t *testing.T) {
+	s := inittests(t)
+	image := s.Steps[0].Component.Container.Image
+	if image.OSGImagePath != "" {
+		t.Errorf("The OSG image path of the container was '%s' when it should have been empty", image.OSGImagePath)
+	}
+}
+
+func TestStepContainerOSGImagePath(t *testing.T) {
+	s := inittestsFile(t, "test/test_submission_osg.json")
+	image := s.Steps[0].Component.Container.Image
+	if image.OSGImagePath != "/path/to/image" {
+		t.Errorf("The OSG image path of the container was '%s' when it should have been '/path/to/image'", image.OSGImagePath)
+	}
+}
+
 func TestStepContainerVolumesFrom1(t *testing.T) {
 	s := inittests(t)
 	vfs := s.Steps[0].Component.Container.VolumesFrom

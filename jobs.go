@@ -166,6 +166,7 @@ func (s *Job) Sanitize() {
 	for i, step := range s.Steps {
 		step.Component.Container.Image.Name = strings.TrimSpace(step.Component.Container.Image.Name)
 		step.Component.Container.Image.Tag = strings.TrimSpace(step.Component.Container.Image.Tag)
+		step.Component.Container.Image.OSGImagePath = strings.TrimSpace(step.Component.Container.Image.OSGImagePath)
 		step.Component.Container.Name = strings.TrimSpace(step.Component.Container.Name)
 
 		for j, vf := range step.Component.Container.VolumesFrom {

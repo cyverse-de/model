@@ -415,34 +415,83 @@ func TestDataContainers(t *testing.T) {
 	}
 }
 
-func TestContainerImages(t *testing.T) {
-	s := inittests(t)
-	ci := s.ContainerImages()
-	actuallen := len(ci)
-	expectedlen := 1
-	if actuallen != expectedlen {
-		t.Errorf("ContainerImages() return %d ContainerImages instead of %d", actuallen, expectedlen)
-	}
-	actual := ci[0].ID
-	expected := "fc210a84-f7cd-4067-939c-a68ec3e3bd2b"
+func validateContainerImage(t *testing.T, actualImage, expectedImage ContainerImage) {
+	actual := actualImage.ID
+	expected := expectedImage.ID
 	if actual != expected {
 		t.Errorf("ID was %s instead of %s", actual, expected)
 	}
-	actual = ci[0].Name
-	expected = "gims.iplantcollaborative.org:5000/backwards-compat"
+	actual = actualImage.Name
+	expected = expectedImage.Name
 	if actual != expected {
 		t.Errorf("Name was %s instead of %s", actual, expected)
 	}
-	actual = ci[0].Tag
-	expected = "latest"
+	actual = actualImage.Tag
+	expected = expectedImage.Tag
 	if actual != expected {
 		t.Errorf("Tag was %s instead of %s", actual, expected)
 	}
-	actual = ci[0].URL
-	expected = "https://registry.hub.docker.com/u/discoenv/backwards-compat"
+	actual = actualImage.URL
+	expected = expectedImage.URL
 	if actual != expected {
 		t.Errorf("URL was %s instead of %s", actual, expected)
 	}
+	actual = actualImage.OSGImagePath
+	expected = expectedImage.OSGImagePath
+	if actual != expected {
+		t.Errorf("OSGImagePath was %s instead of %s", actual, expected)
+	}
+}
+
+func min(n int, ns ...int) int {
+	minValue := n
+	for _, num := range ns {
+		if num < minValue {
+			minValue = num
+		}
+	}
+	return minValue
+}
+
+func validateContainerImages(t *testing.T, actualImages, expectedImages []ContainerImage) {
+	actuallen := len(actualImages)
+	expectedlen := len(expectedImages)
+	if actuallen != expectedlen {
+		t.Errorf("ContainerImages() returned %d ContainerImages instead of %d", actuallen, expectedlen)
+	}
+	for i := 0; i < min(actuallen, expectedlen); i++ {
+		validateContainerImage(t, actualImages[i], expectedImages[i])
+	}
+}
+
+func TestContainerImages(t *testing.T) {
+	s := inittests(t)
+	actualImages := s.ContainerImages()
+	expectedImages := []ContainerImage{
+		{
+			ID:           "fc210a84-f7cd-4067-939c-a68ec3e3bd2b",
+			Name:         "gims.iplantcollaborative.org:5000/backwards-compat",
+			Tag:          "latest",
+			URL:          "https://registry.hub.docker.com/u/discoenv/backwards-compat",
+			OSGImagePath: "",
+		},
+	}
+	validateContainerImages(t, actualImages, expectedImages)
+}
+
+func TestContainerImagesOSG(t *testing.T) {
+	s := inittestsFile(t, "test/test_submission_osg.json")
+	actualImages := s.ContainerImages()
+	expectedImages := []ContainerImage{
+		{
+			ID:           "fc210a84-f7cd-4067-939c-a68ec3e3bd2b",
+			Name:         "gims.iplantcollaborative.org:5000/backwards-compat",
+			Tag:          "latest",
+			URL:          "https://registry.hub.docker.com/u/discoenv/backwards-compat",
+			OSGImagePath: "/path/to/image",
+		},
+	}
+	validateContainerImages(t, actualImages, expectedImages)
 }
 
 func TestFileMetadata(t *testing.T) {

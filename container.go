@@ -38,11 +38,12 @@ type VolumesFrom struct {
 
 // ContainerImage describes a docker container image.
 type ContainerImage struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
-	Tag  string `json:"tag"`
-	Auth string `json:"auth"`
-	URL  string `json:"url"`
+	ID           string `json:"id"`
+	Name         string `json:"name"`
+	Tag          string `json:"tag"`
+	Auth         string `json:"auth"`
+	URL          string `json:"url"`
+	OSGImagePath string `json:"osg_image_path"`
 }
 
 // Container describes a container used as part of a DE job.
