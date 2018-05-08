@@ -76,10 +76,10 @@ type Job struct {
 	FailureCount       int64          `json:"failure_count"`
 	FailureThreshold   int64          `json:"failure_threshold"`
 	FileMetadata       []FileMetadata `json:"file-metadata"`
-	FilterFiles        []string       `json:"filter_files"`       //comes from config, not upstream service
-	Group              string         `json:"group"`              //untested for now
-	InputPathListFile  string         `json:"input_path_list"`    //path to a list of inputs (not from upstream).
-	InputTicketsFile   string         `json:"inputs_ticket_list"` //path to a list of inputs with tickets (not from upstream).
+	FilterFiles        []string       `json:"filter_files"`      //comes from config, not upstream service
+	Group              string         `json:"group"`             //untested for now
+	InputPathListFile  string         `json:"input_path_list"`   //path to a list of inputs (not from upstream).
+	InputTicketsFile   string         `json:"input_ticket_list"` //path to a list of inputs with tickets (not from upstream).
 	InvocationID       string         `json:"uuid"`
 	IRODSBase          string         `json:"irods_base"`
 	Name               string         `json:"name"`
