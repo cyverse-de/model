@@ -377,6 +377,18 @@ func (s *Job) UsesVolumes() bool {
 	return false
 }
 
+// Returns a list of inputs that do not have download tickets.
+func (job *Job) FilterInputsWithoutTickets() []StepInput {
+	var inputs []StepInput
+	for _, input := range job.Inputs() {
+		if input.Ticket == "" {
+			inputs = append(inputs, input)
+		}
+	}
+	return inputs
+}
+
+// Returns a list of inputs that have download tickets.
 func (job *Job) FilterInputsWithTickets() []StepInput {
 	var inputs []StepInput
 	for _, input := range job.Inputs() {
