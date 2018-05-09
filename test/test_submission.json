@@ -18,13 +18,13 @@
                     "id":"16fd2a16-3ac6-11e5-a25d-2fa4b0893ef1",
                     "ports" : [
                         {
-                            "container_port" : "1000",
-                            "host_port" : "1001",
+                            "container_port" : 1000,
+                            "host_port" : 1001,
                             "bind_to_host" : false
                         },
                         {
-                            "container_port" : "1002",
-                            "host_port" : "1003",
+                            "container_port" : 1002,
+                            "host_port" : 1003,
                             "bind_to_host" : true
                         }
                     ],
