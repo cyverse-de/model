@@ -395,6 +395,51 @@ func (job *Job) FilterInputsWithTickets() []StepInput {
 	return inputs
 }
 
+// CPURequest calculates the highest maximum CPU among the steps of a job (i.e.
+// the largest slot size the job will need), or 0 if no steps have maximum CPUs
+// set
+func (job *Job) CPURequest() float32 {
+	var cpu float32
+
+	for _, step := range job.Steps {
+		if step.Component.Container.MaxCPUCores > cpu {
+			cpu = step.Component.Container.MaxCPUCores
+		}
+	}
+
+	return cpu
+}
+
+// MemoryRequest calculates the highest maximum memory among the steps of a job
+// (i.e.  the largest slot size the job will need), or 0 if no steps have
+// maximum memory set
+func (job *Job) MemoryRequest() int64 {
+	var mem int64
+
+	for _, step := range job.Steps {
+		if step.Component.Container.MemoryLimit > mem {
+			mem = step.Component.Container.MemoryLimit
+		}
+	}
+
+	return mem
+}
+
+// DiskRequest calculates the highest disk need among the steps of a job
+// (i.e.  the largest slot size the job will need), or 0 if no steps have
+// disk set. As we only track minimum disk space, it uses that number.
+func (job *Job) DiskRequest() int64 {
+	var disk int64
+
+	for _, step := range job.Steps {
+		if step.Component.Container.MinDiskSpace > disk {
+			disk = step.Component.Container.MinDiskSpace
+		}
+	}
+
+	return disk
+}
+
 // FileMetadata describes a unit of metadata that should get associated with
 // all of the files associated with the job submission.
 type FileMetadata struct {
