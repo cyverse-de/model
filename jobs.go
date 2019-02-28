@@ -1,3 +1,6 @@
+// Package model provides the data structures and various useful manipulations
+// and summaries thereof for CyVerse jobs and their subcomponents (like steps,
+// containers, interactive apps data, etc.)
 package model
 
 import (
