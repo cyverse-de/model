@@ -69,6 +69,7 @@ func (j *Job) InputSourceListArguments(sourceListPath string) []string {
 		"get",
 		"--user", j.Submitter,
 		"--source-list", sourceListPath,
+		"--config", "/configs/irods-config",
 	}
 
 	for _, m := range MetadataArgs(j.FileMetadata).FileMetadataArguments() {
@@ -84,6 +85,7 @@ func (i *StepInput) Arguments(username string, metadata []FileMetadata) []string
 		"get",
 		"--user", username,
 		"--source", i.IRODSPath(),
+		"--config", "/configs/irods-config",
 	}
 
 	for _, m := range MetadataArgs(metadata).FileMetadataArguments() {
