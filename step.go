@@ -153,6 +153,8 @@ type StepParam struct {
 	Name  string `json:"name"`
 	Value string `json:"value"`
 	Order int    `json:"order"`
+	Type  string `json:"type"`
+	Path  string `json:"path"`
 }
 
 // ByOrder implements the sort interface for a []StepParam based on the Order
