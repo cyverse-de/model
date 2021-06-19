@@ -13,23 +13,23 @@ func TestStepComponentType(t *testing.T) {
 func TestStepComponentName(t *testing.T) {
 	s := inittests(t)
 	step := s.Steps[0]
-	if step.Component.Name != "wc_wrapper.sh" {
-		t.Errorf("The step's component name was '%s' when it should have been 'wc_wrapper.sh'", step.Component.Name)
+	if step.Component.Name != "QATestTool.sh" {
+		t.Errorf("The step's component name was '%s' when it should have been 'QATestTool.sh'", step.Component.Name)
 	}
 }
 
 func TestStepComponentLocation(t *testing.T) {
 	s := inittests(t)
 	step := s.Steps[0]
-	if step.Component.Location != "/usr/local3/bin/wc_tool-1.00" {
-		t.Errorf("The step's component location was '%s' when it should have been '/usr/local3/bin/wc_tool-1.00'", step.Component.Location)
+	if step.Component.Location != "/usr/local2/bin" {
+		t.Errorf("The step's component location was '%s' when it should have been '/usr/local2/bin'", step.Component.Location)
 	}
 }
 
 func TestStepComponentDescription(t *testing.T) {
 	s := inittests(t)
 	step := s.Steps[0]
-	if step.Component.Description != "Word Count" {
-		t.Errorf("The step's component description was '%s' when it should have been 'Word Count'", step.Component.Description)
+	if step.Component.Description != "Test script to emulate a tool installed" {
+		t.Errorf("The step's component description was '%s' when it should have been 'Test script to emulate a tool installed'", step.Component.Description)
 	}
 }

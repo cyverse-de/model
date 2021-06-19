@@ -78,9 +78,9 @@
                     "working_directory" : "/work"
                 },
                 "type":"executable",
-                "name":"wc_wrapper.sh",
-                "location":"/usr/local3/bin/wc_tool-1.00",
-                "description":"Word Count"
+                "name":"QATestTool.sh",
+                "location":"/usr/local2/bin",
+                "description":"Test script to emulate a tool installed"
             },
             "environment":{
                 "food" : "banana",
@@ -89,22 +89,76 @@
             "config":{
                 "input":[
                     {
-                        "id":"2f58fce9-8183-4ab5-97c4-970592d1c35a",
-                        "multiplicity":"single",
-                        "name":"Acer-tree.txt",
-                        "property":"Acer-tree.txt",
-                        "retain":true,
-                        "type":"FileInput",
-                        "value":"/iplant/home/wregglej/Acer-tree.txt"
+                        "id": "2f58fce9-8183-4ab5-97c4-970592d1c35a",
+                        "multiplicity": "single",
+                        "name": "Acer-tree.txt",
+                        "property": "Acer-tree.txt",
+                        "retain": true,
+                        "type": "FileInput",
+                        "value": "/iplant/home/wregglej/Acer-tree.txt"
                     },
                     {
-                        "id" : "2f58fce9-8183-4ab5-97c4-970592d1c35b",
-                        "multiplicity":"single",
-                        "name":"app",
-                        "property":"app",
-                        "retain":false,
-                        "type":"FileInput",
-                        "value":""
+                        "id": "a7801798-cec6-11eb-b1ad-008cfa5ae621",
+                        "multiplicity": "many",
+                        "name": "input.1",
+                        "property": "input.1",
+                        "retain": true,
+                        "type": "MultiFileSelector",
+                        "value": "/iplant/home/wregglej/input.1"
+                    },
+                    {
+                        "id": "a7801798-cec6-11eb-b1ad-008cfa5ae621",
+                        "multiplicity": "many",
+                        "name": "input.2",
+                        "property": "input.2",
+                        "retain": true,
+                        "type": "MultiFileSelector",
+                        "value": "/iplant/home/wregglej/input.2"
+                    },
+                    {
+                        "id": "a7801798-cec6-11eb-b1ad-008cfa5ae621",
+                        "multiplicity": "many",
+                        "name": "input.3",
+                        "property": "input.3",
+                        "retain": true,
+                        "type": "MultiFileSelector",
+                        "value": "/iplant/home/wregglej/input.3"
+                    },
+                    {
+                        "id": "a7801798-cec6-11eb-b1ad-008cfa5ae621",
+                        "multiplicity": "many",
+                        "name": "input.4",
+                        "property": "input.4",
+                        "retain": true,
+                        "type": "MultiFileSelector",
+                        "value": "/iplant/home/wregglej/input.4"
+                    },
+                    {
+                        "id": "a7801798-cec6-11eb-b1ad-008cfa5ae621",
+                        "multiplicity": "many",
+                        "name": "input.5",
+                        "property": "input.5",
+                        "retain": true,
+                        "type": "MultiFileSelector",
+                        "value": "/iplant/home/wregglej/input.5"
+                    },
+                    {
+                        "id": "a7801798-cec6-11eb-b1ad-008cfa5ae621",
+                        "multiplicity": "many",
+                        "name": "input.6",
+                        "property": "input.6",
+                        "retain": true,
+                        "type": "MultiFileSelector",
+                        "value": "/iplant/home/wregglej/input.6"
+                    },
+                    {
+                        "id": "2f58fce9-8183-4ab5-97c4-970592d1c35b",
+                        "multiplicity": "single",
+                        "name": "app",
+                        "property": "app",
+                        "retain": false,
+                        "type": "FileInput",
+                        "value": ""
                     }
                 ],
                 "output":[
@@ -126,16 +180,64 @@
                 ],
                 "params":[
                     {
-                        "id":"e7721c78-56c9-41ac-8ff5-8d46093f1fb1",
-                        "name":"param0",
-                        "order":2,
-                        "value":"wc_out.txt"
+                        "id": "e7721c78-56c9-41ac-8ff5-8d46093f1fb1",
+                        "name": "param0",
+                        "order": 2,
+                        "value": "wc_out.txt"
                     },
                     {
-                        "id":"2f58fce9-8183-4ab5-97c4-970592d1c35a",
-                        "name":"param1",
-                        "order":1,
-                        "value":"Acer-tree.txt"
+                        "id": "2f58fce9-8183-4ab5-97c4-970592d1c35a",
+                        "name": "param1",
+                        "order": 1,
+                        "value": "Acer-tree.txt"
+                    },
+                    {
+                        "id": "a7801798-cec6-11eb-b1ad-008cfa5ae621",
+                        "name": "--multi-param2",
+                        "value": "input.1",
+                        "order": 3
+                    },
+                    {
+                        "id": "a7801798-cec6-11eb-b1ad-008cfa5ae621",
+                        "name": "",
+                        "value": "input.2",
+                        "order": 3
+                    },
+                    {
+                        "id": "a7801798-cec6-11eb-b1ad-008cfa5ae621",
+                        "name": "",
+                        "value": "input.3",
+                        "order": 3
+                    },
+                    {
+                        "id": "a7801798-cec6-11eb-b1ad-008cfa5ae621",
+                        "name": "",
+                        "value": "input.4",
+                        "order": 3
+                    },
+                    {
+                        "id": "a7801798-cec6-11eb-b1ad-008cfa5ae621",
+                        "name": "",
+                        "value": "input.5",
+                        "order": 3
+                    },
+                    {
+                        "id": "a7801798-cec6-11eb-b1ad-008cfa5ae621",
+                        "name": "",
+                        "value": "input.6",
+                        "order": 3
+                    },
+                    {
+                        "id": "45b9e6ba-cfb1-11eb-9e49-008cfa5ae621",
+                        "name": "param3",
+                        "value": "true",
+                        "order": 1
+                    },
+                    {
+                        "id": "45bb4960-cfb1-11eb-9e49-008cfa5ae621",
+                        "name": "param4",
+                        "value": "four",
+                        "order": 2
                     }
                 ]
             },
