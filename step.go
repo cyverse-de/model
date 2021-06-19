@@ -143,7 +143,7 @@ type StepConfig struct {
 // Parameters returns the StepParams associated with a Step in the correct order.
 // Use this to get the list of Params rather than accessing the field directory.
 func (c *StepConfig) Parameters() []StepParam {
-	sort.Sort(ByOrder(c.Params))
+	sort.Stable(ByOrder(c.Params))
 	return c.Params
 }
 

@@ -177,7 +177,7 @@ func TestIsBackwardsCompatible(t *testing.T) {
 func TestExecutable(t *testing.T) {
 	s := inittests(t)
 	actual := s.Steps[0].Executable()
-	expected := "/usr/local3/bin/wc_tool-1.00/wc_wrapper.sh"
+	expected := "/usr/local2/bin/QATestTool.sh"
 	if actual != expected {
 		t.Errorf("Executable() returned '%s' instead of '%s'", actual, expected)
 	}
@@ -195,23 +195,16 @@ func TestArguments(t *testing.T) {
 	s.Steps[0].Environment = make(StepEnvironment) // Removed the environment to save my sanity. It's unordered.
 	actual := s.Steps[0].Arguments()
 	expected := []string{
-		"/usr/local3/bin/wc_tool-1.00/wc_wrapper.sh",
-		"param1", "Acer-tree.txt", "param0", "wc_out.txt",
+		"/usr/local2/bin/QATestTool.sh",
+		"param1", "Acer-tree.txt", "param3", "true",
+		"param0", "wc_out.txt", "param4", "four",
+		"--multi-param2", "input.1", "input.2", "input.3",
+		"input.4", "input.5", "input.6",
 	}
 	if !reflect.DeepEqual(actual, expected) {
 		t.Errorf("Arguments() returned:\n\t%#v\ninstead of:\n\t%#v", actual, expected)
 	}
 }
-
-// func TestArguments(t *testing.T) {
-// 	s := inittests(t)
-// 	actual := s.Steps[0].Arguments("foo")
-// 	expected := `run --rm -e IPLANT_USER -e IPLANT_EXECUTION_ID -v /usr/local2/:/usr/local2 -v /usr/local3/:/usr/local3/ -v /data2/:/data2/ -v $(pwd):/work -v /host/path1:/container/path1 -v /container/path2 --device=/host/path1:/container/path1 --device=/host/path2:/container/path2 --volumes-from=foo-vf-prefix1 --volumes-from=foo-vf-prefix2 --name test-name -w /work --memory=2048M --cpu-shares=2048 --net=none --entrypoint=/bin/true gims.iplantcollaborative.org:5000/backwards-compat:test /usr/local3/bin/wc_tool-1.00/wc_wrapper.sh param1 'Acer-tree.txt' param0 'wc_out.txt'`
-// 	if actual != expected {
-// 		t.Errorf("Arguments() returned:\n\t%s\ninstead of:\n\t%s", actual, expected)
-// 	}
-// 	_inittests(t, false)
-// }
 
 func TestStepConfig(t *testing.T) {
 	s := inittests(t)
@@ -219,14 +212,14 @@ func TestStepConfig(t *testing.T) {
 	inputlen := len(config.Inputs)
 	outputlen := len(config.Outputs)
 	paramslen := len(config.Params)
-	if inputlen != 2 {
-		t.Errorf("The number of inputs was '%d' when it should have been '2'", inputlen)
+	if inputlen != 8 {
+		t.Errorf("The number of inputs was '%d' when it should have been '8'", inputlen)
 	}
 	if outputlen != 2 {
 		t.Errorf("The number of outputs was '%d' when it should have been '2'", outputlen)
 	}
-	if paramslen != 2 {
-		t.Errorf("The number of params was '%d' when it should have been '2'", paramslen)
+	if paramslen != 10 {
+		t.Errorf("The number of params was '%d' when it should have been '10'", paramslen)
 	}
 }
 

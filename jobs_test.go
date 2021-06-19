@@ -561,7 +561,7 @@ func TestInputs(t *testing.T) {
 	s := inittests(t)
 	inputs := s.Inputs()
 	actual := len(inputs)
-	expected := 2
+	expected := 8
 	if actual != expected {
 		t.Errorf("Number of inputs was %d instead of %d", actual, expected)
 	}
