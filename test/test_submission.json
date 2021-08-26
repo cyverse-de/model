@@ -6,6 +6,7 @@
     "app_id":"c7f05682-23c8-4182-b9a2-e09650a5f49b",
     "user_id": "00000000-0000-0000-0000-000000000000",
     "user_groups": ["groups:foo", "groups:bar", "groups:baz"],
+    "user_home": "/iplant/home/wregglej",
     "steps":[
         {
             "component":{
