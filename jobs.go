@@ -112,6 +112,7 @@ type Job struct {
 	Type               string         `json:"type"`
 	UserID             string         `json:"user_id"`
 	UserGroups         []string       `json:"user_groups"`
+	UserHome           string         `json:"user_home"`
 	WikiURL            string         `json:"wiki_url"`
 	ConfigFile         string         `json:"config_file"` //path to the job configuration file (not from upstream)
 }
