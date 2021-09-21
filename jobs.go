@@ -127,9 +127,7 @@ func New(cfg *viper.Viper) *Job {
 	lp := cfg.GetString("condor.log_path")
 	var paths []string
 	filterFiles := cfg.GetString("condor.filter_files")
-	for _, filter := range strings.Split(filterFiles, ",") {
-		paths = append(paths, filter)
-	}
+	paths = append(paths, strings.Split(filterFiles, ",")...)
 	irodsBase := cfg.GetString("irods.base")
 	return &Job{
 		NowDate:        n,
@@ -250,9 +248,7 @@ func (job *Job) OutputDirectory() string {
 func (job *Job) DataContainers() []VolumesFrom {
 	var vfs []VolumesFrom
 	for _, step := range job.Steps {
-		for _, vf := range step.Component.Container.VolumesFrom {
-			vfs = append(vfs, vf)
-		}
+		vfs = append(vfs, step.Component.Container.VolumesFrom...)
 	}
 	return vfs
 }
@@ -272,9 +268,7 @@ func (job *Job) ContainerImages() []ContainerImage {
 func (job *Job) Inputs() []StepInput {
 	var inputs []StepInput
 	for _, step := range job.Steps {
-		for _, input := range step.Config.Inputs {
-			inputs = append(inputs, input)
-		}
+		inputs = append(inputs, step.Config.Inputs...)
 	}
 	return inputs
 }
@@ -284,9 +278,7 @@ func (job *Job) Inputs() []StepInput {
 func (job *Job) Outputs() []StepOutput {
 	var outputs []StepOutput
 	for _, step := range job.Steps {
-		for _, output := range step.Config.Outputs {
-			outputs = append(outputs, output)
-		}
+		outputs = append(outputs, step.Config.Outputs...)
 	}
 	return outputs
 }
@@ -304,9 +296,7 @@ func (job *Job) ExcludeArguments() []string {
 			paths = append(paths, output.Source())
 		}
 	}
-	for _, ff := range job.FilterFiles {
-		paths = append(paths, ff)
-	}
+	paths = append(paths, job.FilterFiles...)
 	if !job.ArchiveLogs {
 		paths = append(paths, "logs")
 	}
@@ -361,9 +351,7 @@ func (job *Job) FinalOutputArguments(excludeFilePath string) []string {
 		"--destination", dest,
 		"--config", "/configs/irods-config",
 	}
-	for _, m := range MetadataArgs(job.FileMetadata).FileMetadataArguments() {
-		retval = append(retval, m)
-	}
+	retval = append(retval, MetadataArgs(job.FileMetadata).FileMetadataArguments()...)
 	if excludeFilePath != "" {
 		retval = append(retval, "--exclude", excludeFilePath)
 	}
@@ -476,9 +464,7 @@ type MetadataArgs []FileMetadata
 func (m MetadataArgs) FileMetadataArguments() []string {
 	retval := []string{}
 	for _, fm := range m {
-		for _, a := range fm.Argument() {
-			retval = append(retval, a)
-		}
+		retval = append(retval, fm.Argument()...)
 	}
 	return retval
 }
