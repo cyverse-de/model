@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cyverse-de/model/v6/submitfile"
+	"github.com/cyverse-de/model/v7/submitfile"
 	"github.com/spf13/viper"
 )
 
@@ -119,9 +119,9 @@ type Job struct {
 
 // New returns a pointer to a newly instantiated Job with NowDate set.
 // Accesses the following configuration settings:
-//  * condor.log_path
-//  * condor.filter_files
-//  * irods.base
+//   - condor.log_path
+//   - condor.filter_files
+//   - irods.base
 func New(cfg *viper.Viper) *Job {
 	n := time.Now().Format(nowfmt)
 	lp := cfg.GetString("condor.log_path")
