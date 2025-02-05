@@ -117,6 +117,10 @@ type Job struct {
 	ConfigFile         string         `json:"config_file"` //path to the job configuration file (not from upstream)
 }
 
+// Analysis is the same type as Job. Our terminology has changed over time,
+// and the code is out of date.
+type Analysis = Job
+
 // New returns a pointer to a newly instantiated Job with NowDate set.
 // Accesses the following configuration settings:
 //   - condor.log_path
@@ -151,6 +155,34 @@ func NewFromData(cfg *viper.Viper, data []byte) (*Job, error) {
 	s.Sanitize()
 	s.AddRequiredMetadata()
 	return s, err
+}
+
+// ModelConfig contains the fields that need to be set outside of a analysis
+// definition
+type AnalysisConfig struct {
+	LogPath     string
+	FilterFiles []string
+	IRODSBase   string
+}
+
+// Creates a new Analysis/Job from the data and AnalysisConfig.
+func NewAnalysis(cfg *AnalysisConfig, data []byte) (*Analysis, error) {
+	var err error
+	n := time.Now().Format(nowfmt)
+	analysis := &Analysis{
+		NowDate:        n,
+		SubmissionDate: n,
+		ArchiveLogs:    true,
+		CondorLogPath:  cfg.LogPath,
+		FilterFiles:    cfg.FilterFiles,
+		IRODSBase:      cfg.IRODSBase,
+	}
+	if err = json.Unmarshal(data, analysis); err != nil {
+		return nil, err
+	}
+	analysis.Sanitize()
+	analysis.AddRequiredMetadata()
+	return analysis, nil
 }
 
 // sanitize replaces @ and spaces with _, making a string safe to use as a
