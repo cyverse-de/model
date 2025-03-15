@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cyverse-de/model/v7/submitfile"
+	"github.com/cyverse-de/model/v8/submitfile"
 	"github.com/spf13/viper"
 )
 
@@ -115,6 +115,7 @@ type Job struct {
 	UserHome           string         `json:"user_home"`
 	WikiURL            string         `json:"wiki_url"`
 	ConfigFile         string         `json:"config_file"` //path to the job configuration file (not from upstream)
+	MountDataStore     bool           `json:"mount_data_store"`
 }
 
 // Analysis is the same type as Job. Our terminology has changed over time,
