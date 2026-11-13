@@ -34,8 +34,12 @@ type Step struct {
 	StderrPath  string          `json:"stderr"`
 	LogFile     string          `json:"log-file"`
 	Environment StepEnvironment `json:"environment"`
-	Input       []StepInput     `json:"input"`
-	Output      []StepOutput    `json:"output"`
+	// SensitiveEnvironment holds EnvironmentVariable-typed parameter values
+	// that were marked sensitive at app registration time (see the apps
+	// repo's apps.persistence.parameters is_sensitive column).
+	SensitiveEnvironment StepEnvironment `json:"sensitive_environment,omitempty"`
+	Input                []StepInput     `json:"input"`
+	Output               []StepOutput    `json:"output"`
 }
 
 // EnvOptions returns a string containing the docker command-line options
