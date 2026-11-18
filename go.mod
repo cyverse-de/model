@@ -3,7 +3,7 @@ module github.com/cyverse-de/model/v10
 go 1.27
 
 require (
-	github.com/cyverse-de/configurate v0.0.0-20260305004742-e3d1c1150f1e
+	github.com/cyverse-de/configurate v0.4.0
 	github.com/spf13/viper v1.21.0
 )
 
